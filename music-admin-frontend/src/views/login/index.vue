@@ -1,5 +1,6 @@
 <template>
-  <div class="login-container">
+  <transition name="jing">
+  <div class="login-container" v-show="haohao">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
@@ -50,6 +51,7 @@
 
     </el-form>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -83,7 +85,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      haohao: false
     }
   },
   watch: {
@@ -121,6 +124,9 @@ export default {
         }
       })
     }
+  },
+  mounted() {
+    this.haohao = true
   }
 }
 </script>
@@ -233,5 +239,13 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+}
+
+.jing-enter-active, .jing-leave-active {
+  transition: all 2s;
+}
+.jing-enter, .jing-leave-active {
+  transform: translate3d(0, -50px,0);
+  opacity: 0;
 }
 </style>
