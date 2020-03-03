@@ -65,7 +65,15 @@ export default {
       this.delDialogVisible = true
     },
     doDel(){
+      this.delDialogVisible = false
+      this.loading = true
       del(this.swiper).then((res) => {
+        this.loading = false
+        this.getlist()
+        this.$message({
+          type: 'success',
+          message: '删除成功！'
+        })
         console.log(res)
       })
     },

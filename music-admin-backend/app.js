@@ -2,7 +2,9 @@ const Koa = require('koa')
 const app = new Koa()
 const Router = require('koa-router')
 const router = new Router()
-const cors = require('koa2-cors') //跨域
+    //跨域解决方法之一cors
+const cors = require('koa2-cors')
+    // 接受post请求参数解析
 const koaBody = require('koa-body')
 
 const ENV = 'jingjing-haohao'
@@ -26,9 +28,11 @@ app.use(async(ctx, next) => {
 
 const playlist = require('./controllers/playlist')
 const swiper = require('./controllers/swiper')
+const blog = require('./controllers/blog')
 
 router.use('/playlist', playlist.routes())
 router.use('/swiper', swiper.routes())
+router.use('/blog', blog.routes())
 
 app.use(router.routes())
 app.use(router.allowedMethods())

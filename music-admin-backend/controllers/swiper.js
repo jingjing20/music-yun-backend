@@ -51,4 +51,20 @@ router.post('/upload', async(ctx, next) => {
     }
 })
 
+router.get('/del', async(ctx, next) => {
+
+    // 删除云数据库中的记录
+    const params = ctx.request.query
+    const query = `db.collection('swiper').doc('${params._id}').remove()`
+    const delDBres = await callCloudDB(ctx, 'databasedelete', query)
+
+    // 删除云存储中的文件
+    const delStorageRes = await cloudStorage.delete(ctx, [params.fileid])
+
+    ctx.body = {
+        code: 20000,
+        delDBres,
+        delStorageRes
+    }
+})
 module.exports = router
