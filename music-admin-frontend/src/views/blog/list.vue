@@ -25,14 +25,17 @@
 <script>
 import {fetchList, del} from '@/api/blog';
 import scroll from '@/utils/scroll';
+// 引入moment时间处理js类库
+import moment from 'moment';
 export default {
   data () {
     return {
       blogList: [],
-      count: 12,
+      count: 15,
       loading: false,
       delDialogVisible: false,
-      blog: {}
+      blog: {},
+      moment
     }
   },
   created() {
@@ -42,9 +45,6 @@ export default {
       scroll.start(this.getList)
   },
   methods: {
-    p(s) {
-      return s < 10 ? '0' + s : s
-    },
     getList(){
       this.loading = true
       fetchList({
@@ -53,18 +53,15 @@ export default {
       }).then((res) => {
         console.log(res)
         const data = res.data
-        let _blogList = []
+        let _blogList = [], jing = []
         for(let i = 0, len = data.length; i< len;i++) {
           _blogList.push(JSON.parse(data[i]))
         }
         console.log(_blogList)
-        let jing = []
         for(let i = 0, len = _blogList.length; i< len;i++) {
-          jing[i] = new Date(JSON.parse(JSON.stringify(_blogList[i].createTime.$date)))
-          _blogList[i].createTime = this.p(jing[i].getFullYear()) + '-' + this.p((jing[i].getMonth() + 1)) + '-' + this.p(jing[i].getDate()) + ' ' + this.p(jing[i].getHours()) + ':' + this.p(jing[i].getMinutes()) + ':' + this.p(jing[i].getSeconds());
-          console.log(_blogList[i].createTime)
+          jing[i] = JSON.parse(JSON.stringify(_blogList[i].createTime.$date))
+          _blogList[i].createTime = moment(jing[i]).format('YYYY-MM-DD HH:mm:ss')
         }
-        console.log(_blogList)
         this.blogList = this.blogList.concat(_blogList)
         if(_blogList.length < this.count){
             scroll.end()

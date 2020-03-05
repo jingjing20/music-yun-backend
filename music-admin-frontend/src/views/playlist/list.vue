@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       playlist: [],
-      count: 50,
+      count: 20,
       loading: false,
       delDialogVisible: false,
       info: {}
@@ -74,15 +74,16 @@ export default {
     doDel(){
       del({id: this.info.id}).then((res) => {
         this.delDialogVisible = false
+        console.log(res)
         if(res.data.deleted > 0) {
           this.playlist = []
           this.getList()
           this.$message({
-            message: '更新成功！',
+            message: '删除成功！',
             type: 'success'
           })
         }else {
-          this.$message.error('更新失败！')
+          this.$message.error('删除失败！')
         }
       })
     },
