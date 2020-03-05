@@ -4,7 +4,7 @@
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column prop="content" label="内容"></el-table-column>
       <el-table-column prop="nickName" label="发布人"></el-table-column>
-      <el-table-column prop="" label="发布时间"></el-table-column>
+      <el-table-column prop="createTime" label="发布时间"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="onDel(scope.row)">删除</el-button>
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       blogList: [],
-      count: 15,
+      count: 12,
       loading: false,
       delDialogVisible: false,
       blog: {}
@@ -42,6 +42,9 @@ export default {
       scroll.start(this.getList)
   },
   methods: {
+    p(s) {
+      return s < 10 ? '0' + s : s
+    },
     getList(){
       this.loading = true
       fetchList({
@@ -50,10 +53,16 @@ export default {
       }).then((res) => {
         console.log(res)
         const data = res.data
-        // console.log(data)
         let _blogList = []
         for(let i = 0, len = data.length; i< len;i++) {
           _blogList.push(JSON.parse(data[i]))
+        }
+        console.log(_blogList)
+        let jing = []
+        for(let i = 0, len = _blogList.length; i< len;i++) {
+          jing[i] = new Date(JSON.parse(JSON.stringify(_blogList[i].createTime.$date)))
+          _blogList[i].createTime = this.p(jing[i].getFullYear()) + '-' + this.p((jing[i].getMonth() + 1)) + '-' + this.p(jing[i].getDate()) + ' ' + this.p(jing[i].getHours()) + ':' + this.p(jing[i].getMinutes()) + ':' + this.p(jing[i].getSeconds());
+          console.log(_blogList[i].createTime)
         }
         console.log(_blogList)
         this.blogList = this.blogList.concat(_blogList)
@@ -61,7 +70,7 @@ export default {
             scroll.end()
         }
         this.loading = false
-        // console.log(this.blogList)
+        
       })
     },
     onDel(row){
