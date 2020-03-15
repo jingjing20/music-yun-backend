@@ -46,7 +46,7 @@ const cloudStorage = {
             })
             .catch(function(err) {})
         console.log(info)
-            // 2、上传图片
+        // 2、上传图片
         const params = {
             method: 'POST',
             headers: {

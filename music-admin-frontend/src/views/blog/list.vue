@@ -56,6 +56,7 @@ export default {
         let _blogList = [], jing = []
         for(let i = 0, len = data.length; i< len;i++) {
           _blogList.push(JSON.parse(data[i]))
+          console.log(_blogList[i].createTime)
         }
         console.log(_blogList)
         for(let i = 0, len = _blogList.length; i< len;i++) {
