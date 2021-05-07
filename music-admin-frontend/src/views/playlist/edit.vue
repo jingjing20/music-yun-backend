@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 20px">
     <el-form ref="form" :model="playlist" label-width="80px">
       <el-form-item label="歌单名称">
         <el-input v-model="playlist.name"></el-input>
@@ -17,41 +17,39 @@
 </template>
 
 <script>
-import { fetchById, update } from '@/api/playlist' 
+import { fetchById, update } from "@/api/playlist";
 export default {
-  data () {
+  data() {
     return {
       playlist: {}
-    }
+    };
   },
   created() {
     fetchById({
       id: this.$route.params.id
-    }).then((res) => {
-      this.playlist = res.data
-    })
+    }).then(res => {
+      this.playlist = res.data;
+    });
   },
   methods: {
-    onSubmit(){
-      update(this.playlist).then((res) => {
-        if(res.data.modified > 0) {
+    onSubmit() {
+      update(this.playlist).then(res => {
+        if (res.data.modified > 0) {
           this.$message({
-            message: '更新成功！',
-            type: 'success'
-          })
-        }else {
-          this.$message.error('更新失败！')
+            message: "更新成功！",
+            type: "success"
+          });
+        } else {
+          this.$message.error("更新失败！");
         }
-        this.$router.push('/playlist/list')
-      })
+        this.$router.push("/playlist/list");
+      });
     },
-    onCancel(){
-      this.$router.push('/playlist/list')
+    onCancel() {
+      this.$router.push("/playlist/list");
     }
   }
-}
+};
 </script>
 
-<style lang='stylus' scoped>
-
-</style>
+<style lang="stylus" scoped></style>

@@ -18,7 +18,7 @@ router.get('/list', async (ctx, next) => {
 		});
 	}
 	const dlRes = await cloudStorage.download(ctx, fileList);
-	console.log(dlRes);
+	console.log(dlRes, '------');
 	let returnData = [];
 	for (let i = 0, len = dlRes.file_list.length; i < len; i++) {
 		returnData.push({
@@ -34,9 +34,10 @@ router.get('/list', async (ctx, next) => {
 });
 
 router.post('/upload', async (ctx, next) => {
+	// 上传文件到云存储
 	const fileid = await cloudStorage.upload(ctx);
 	console.log(fileid);
-	// 写数据库
+	// 将上传成功的文件id写入数据库
 	const query = `
         db.collection('swiper').add({
             data: {

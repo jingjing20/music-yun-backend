@@ -7,7 +7,7 @@
         :on-success="uploadSuccess"
         :show-file-list="false"
       >
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="big" type="primary">点击上传</el-button>
       </el-upload>
     </div>
     <el-table v-loading="loading" :data="swiperList" stripe style="width: 100%">
@@ -20,7 +20,9 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="onDel(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="onDel(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -37,59 +39,59 @@
 </template>
 
 <script>
-import { fecthList, del } from '../../api/swiper'
+import { fecthList, del } from "../../api/swiper";
 export default {
-  data () {
+  data() {
     return {
       swiperList: [],
       loading: false,
       delDialogVisible: false,
       swiper: {}
-    }
+    };
   },
   created() {
-    this.getlist()
+    this.getlist();
   },
   methods: {
     getlist() {
-      this.loading = true
-      fecthList().then((res) => {
-        console.log(res)
-        this.swiperList = res.data
-        this.loading = false
-      })
+      this.loading = true;
+      fecthList().then(res => {
+        console.log(res);
+        this.swiperList = res.data;
+        this.loading = false;
+      });
     },
-    onDel(row){
-      this.swiper = row
-      console.log(this.swiper)
-      this.delDialogVisible = true
+    // 点击删除按钮触发事件
+    onDel(row) {
+      this.swiper = row;
+      console.log(this.swiper);
+      this.delDialogVisible = true;
     },
-    doDel(){
-      this.delDialogVisible = false
-      this.loading = true
-      del(this.swiper).then((res) => {
-        this.loading = false
-        this.getlist()
+    // 点击对话框确认按钮触发事件
+    doDel() {
+      this.delDialogVisible = false;
+      this.loading = true;
+      del(this.swiper).then(res => {
+        this.loading = false;
+        this.getlist();
         this.$message({
-          type: 'success',
-          message: '删除成功！'
-        })
-        console.log(res)
-      })
+          type: "success",
+          message: "删除成功！"
+        });
+        console.log(res);
+      });
     },
-    uploadSuccess(res){
-      if(res.id_list.length > 0) {
+    uploadSuccess(res) {
+      if (res.id_list.length > 0) {
         this.$message({
-          message: '上传成功！',
-          type: 'success'
-        })
-        this.getlist()
+          message: "上传成功！",
+          type: "success"
+        });
+        this.getlist();
       }
-    },
+    }
   }
-}
+};
 </script>
 
-<style lang='stylus' scoped>
-
-</style>
+<style lang="stylus" scoped></style>
